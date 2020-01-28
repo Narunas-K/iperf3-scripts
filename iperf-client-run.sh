@@ -26,9 +26,9 @@ sar_logs_file_name=$host-$todays_date-iperf-client-sar.out
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$todays_date-iperf-client.results
 
-idle_timer_before_measurement=5
-performance_measurement_timer=5
-idle_timer_after_measurement=5
+idle_timer_before_measurement=15
+performance_measurement_timer=100
+idle_timer_after_measurement=15
 
 iperf_server_port=5201
 iperf_loop_counter=0
@@ -64,7 +64,7 @@ do
 done
 
 #start iperf client
-iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name
+iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer
 echo "going to sleep for $performance_measurement_timer seconds"
 sleep $performance_measurement_timer
 

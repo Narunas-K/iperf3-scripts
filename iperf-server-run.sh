@@ -26,9 +26,9 @@ sar_logs_file_name=$host-$todays_date-iperfserver-sar.ou
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$todays_date-iperfserver-iperf.results
 
-idle_timer_before_measurement=5
-performance_measurement_timer=5
-idle_timer_after_measurement=5
+idle_timer_before_measurement=15
+performance_measurement_timer=100
+idle_timer_after_measurement=10
 
 # Script
 echo "Starting CNI/Network performance measurement run"
