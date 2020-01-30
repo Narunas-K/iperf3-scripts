@@ -6,10 +6,12 @@
 # Read arguments
 interface_ip=$1
 server_ip=$2
-if [ -z $interface_ip ] && [ -z $server_ip ]
+iperf_server_port=$3
+test_name=$4
+if [ -z $interface_ip ] || [ -z $server_ip ] || [ -z $iperf_server_port ] || [ -z $test_name ]
 then
   echo "Please provide interface_ip and server_ip parameters. Example"
-  echo "./iperf-client-run.sh interface_ip iperf_server_ip"
+  echo "./iperf-client-run.sh 192.168.2.2 192.168.2.1 50002 first_test"
   echo "Exiting.."
   exit
 fi
@@ -18,19 +20,18 @@ fi
 todays_date=`date +%Y%m%d-%H%M%S`
 host=`hostname -f`
 sar_results_dir="/tmp/phys-tcp-throughput-test/sar-results"
-sar_results_file_name=$host-$todays_date-iperf-client-sar.results
+sar_results_file_name=$host-$test_name-$todays_date-iperf-client-sar.results
 
 sar_logs_dir="/tmp/phys-tcp-throughput-test/sar-logs"
-sar_logs_file_name=$host-$todays_date-iperf-client-sar.out
+sar_logs_file_name=$host-$test_name-$todays_date-iperf-client-sar.out
 
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
-iperf_results_file_name=$host-$todays_date-iperf-client.results
+iperf_results_file_name=$host-$test_name-$todays_date-iperf-client.results
 
-idle_timer_before_measurement=15
-performance_measurement_timer=100
-idle_timer_after_measurement=15
+idle_timer_before_measurement=60
+performance_measurement_timer=300
+idle_timer_after_measurement=60
 
-iperf_server_port=5201
 iperf_loop_counter=0
 max_iperf_client_retries=15
 # Script
@@ -64,9 +65,9 @@ do
 done
 
 #start iperf client
-iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer
+iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer -p $iperf_server_port
 echo "going to sleep for $performance_measurement_timer seconds"
-sleep $performance_measurement_timer
+#sleep $performance_measurement_timer
 
 # Kill iper3 client
 echo "killing iperf3 client which PID is: $(pidof iperf3)"
