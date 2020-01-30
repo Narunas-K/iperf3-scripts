@@ -54,10 +54,10 @@ echo "going to sleep for $performance_measurement_timer seconds"
 sleep $performance_measurement_timer
 
 # Kill iper3 server
-echo "killing iperf3 server which PID is: $(pidof iperf3)"
-if [ -n $(pidof iperf3) ]
+echo "killing iperf3 server which PID is: $(/usr/sbin/pidof iperf3)"
+if [ -n $(/usr/sbin/pidof iperf3) ]
 then
-  kill -9 $(pidof iperf3)
+  kill -9 $(/usr/sbin/pidof iperf3)
 else
   echo "there is no such a process as iperf3"
 fi
@@ -66,10 +66,10 @@ echo "going to sleep for $idle_timer_after_measurement seconds"
 sleep $idle_timer_after_measurement
 
 # Kill sar 
-echo "killing sar process which PID is: $(pidof sar)"
-if [ -n $(pidof sar) ]
+echo "killing sar process which PID is: $(/usr/sbin/pidof sar)"
+if [ -n $(/usr/sbin/pidof sar) ]
 then
-  kill -9 $(pidof sar)
+  kill -9 $(/usr/sbin/pidof sar)
 else
   echo "there is no such a process as sar"
 fi

@@ -57,7 +57,7 @@ do
   if [ $iperf_loop_counter -eq $max_iperf_client_retries ]
   then
     echo "Could not connect to iperf sever even after $iperf_loop_counter retries. Aborting.."
-    kill -9 $(pidof sar)
+    kill -9 $(/usr/sbin/pidof sar)
     exit
   fi
   iperf_loop_counter=$((iperf_loop_counter+1))
@@ -70,10 +70,10 @@ echo "going to sleep for $performance_measurement_timer seconds"
 #sleep $performance_measurement_timer
 
 # Kill iper3 client
-echo "killing iperf3 client which PID is: $(pidof iperf3)"
-if [ -n $(pidof iperf3) ]
+echo "killing iperf3 client which PID is: $(/usr/sbin/pidof iperf3)"
+if [ -n $(/usr/sbin/pidof iperf3) ]
 then
-  kill -9 $(pidof iperf3)
+  kill -9 $(/usr/sbin/pidof iperf3)
 else
   echo "there is no such a process as iperf3"
 fi
