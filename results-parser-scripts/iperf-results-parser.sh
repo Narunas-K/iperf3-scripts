@@ -1,7 +1,7 @@
 #/bin/sh
 # By Narunas Kapocius
-# 2020 01 05
-# Iperf3 client run with sar logging script
+# 2020 02 02
+# Iperf3 results file parser script
 
 #Variables
 current_work_dir=`pwd`
