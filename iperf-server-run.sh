@@ -28,9 +28,10 @@ sar_logs_file_name=$host-$test_name-$todays_date-iperfserver-sar.out
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperfserver-iperf.results
 
-idle_timer_before_measurement=60
-performance_measurement_timer=302
+idle_timer_before_measurement=5
+performance_measurement_timer=180
 idle_timer_after_measurement=60
+sar_timer=$((idle_timer_before_measurement+performance_measurement_timer+idle_timer_after_measurement))
 
 # Script
 echo "Starting CNI/Network performance measurement run"
@@ -38,7 +39,7 @@ echo $todays_date
 echo $host
 
 # Sar logging part
-nohup sar -A 1 480 -o $sar_results_dir/$sar_results_file_name > $sar_logs_dir/$sar_logs_file_name 2>&1 &
+nohup sar -A 1 $sar_timer -o $sar_results_dir/$sar_results_file_name > $sar_logs_dir/$sar_logs_file_name 2>&1 &
 echo "sar results are stored in $sar_results_dir/$sar_results_file_name"
 echo "sar run log is stored in $sar_logs_dir/$host-$todays_date-iperfserver-sar.out"
 
