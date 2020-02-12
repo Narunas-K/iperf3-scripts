@@ -8,10 +8,11 @@ interface_ip=$1
 server_ip=$2
 iperf_server_port=$3
 test_name=$4
-if [ -z $interface_ip ] || [ -z $server_ip ] || [ -z $iperf_server_port ] || [ -z $test_name ]
+mss=$5
+if [ -z $interface_ip ] || [ -z $server_ip ] || [ -z $iperf_server_port ] || [ -z $test_name ] || [ -z $mss ]
 then
   echo "Please provide interface_ip and server_ip parameters. Example"
-  echo "./iperf-client-run.sh 192.168.2.2 192.168.2.1 50002 first_test"
+  echo "./iperf-client-run.sh 192.168.2.2 192.168.2.1 50002 first_test 88"
   echo "Exiting.."
   exit
 fi
@@ -28,19 +29,20 @@ sar_logs_file_name=$host-$test_name-$todays_date-iperf-client-sar.out
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperf-client.results
 
-idle_timer_before_measurement=60
-performance_measurement_timer=300
+idle_timer_before_measurement=5
+performance_measurement_timer=180
 idle_timer_after_measurement=60
-
+sar_timer=$((idle_timer_before_measurement+performance_measurement_timer+idle_timer_after_measurement))
 iperf_loop_counter=0
 max_iperf_client_retries=15
+
 # Script
 echo "Starting CNI/Network performance measurement run. Client side"
 echo $todays_date
 echo $host
 
 # Sar logging part
-nohup sar -A 1 480 -o $sar_results_dir/$sar_results_file_name > $sar_logs_dir/$sar_logs_file_name 2>&1 &
+nohup sar -A 1 $sar_timer -o $sar_results_dir/$sar_results_file_name > $sar_logs_dir/$sar_logs_file_name 2>&1 &
 echo "sar results are stored in $sar_results_dir/$sar_results_file_name"
 echo "sar run log is stored in $sar_logs_dir/$sar_logs_file_name"
 
@@ -65,7 +67,7 @@ do
 done
 
 #start iperf client
-iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer -p $iperf_server_port
+iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer -p $iperf_server_port --set-mss $mss
 echo "going to sleep for $performance_measurement_timer seconds"
 #sleep $performance_measurement_timer
 
