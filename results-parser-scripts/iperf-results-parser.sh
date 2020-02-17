@@ -27,8 +27,8 @@ echo "" > $current_work_dir/$results_file
 
 for file_name in $files_array
 do
-  test_name=`echo "$file_name" | grep -Po "kw\d\w{3}\d_kw\d\w{3}\d_\d-\d{8}-\d{6}"`
-  results=`grep "0.00-300.00" $file_name | grep -Po "\d+ Mbits" | grep -Po "\d+"`
+  test_name=`echo "$file_name" | grep -Po "kw\d\w{3}\d_kw\d\w{3}\d_\w{3}-\d{2,4}_\d-\d{8}-\d{6}"`
+  results=`grep "0.00-180.00" $source_dir/$file_name | grep -Po "\d+ Mbits" | grep -Po "\d+"`
   results=`echo $results | tr '\n' ' '`
   printf "$test_name $results \\n" >> $current_work_dir/$results_file
 done
