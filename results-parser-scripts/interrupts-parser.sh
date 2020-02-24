@@ -49,7 +49,7 @@ do
     fi
     counter=$(($counter+1))
   done
-  idle_interrupt_counter_avg=`lua -e "print($idle_interrupt_counter/120)"`
+  idle_interrupt_counter_avg=`lua -e "print($idle_interrupt_counter/125)"`
   work_interrupt_counter_avg=`lua -e "print($work_interrupt_counter/180)"` 
   printf "$test_name $idle_interrupt_counter_avg $work_interrupt_counter_avg \\n" >> $results_store_dir/$results_file
 done
