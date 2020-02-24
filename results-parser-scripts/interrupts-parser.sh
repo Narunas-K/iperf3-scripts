@@ -15,7 +15,7 @@ results_file=$3
 if [ -z $source_dir ] || [ -z $results_store_dir ] || [ -z $results_file ]
 then
   echo "Please provide source data directory and results file name to which write results"
-  echo "./interrupts-parser.sh source-data-dir results-file-name"
+  echo "./interrupts-parser.sh source-data-dir results-store-dir results-file-name"
   echo "Exiting.."
   exit
 fi
