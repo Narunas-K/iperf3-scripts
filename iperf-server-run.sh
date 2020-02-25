@@ -1,7 +1,7 @@
 #!/bin/sh
 # By Narunas Kapocius
 # 2020 01 05
-# Iperf3 client run with sar logging script
+# Iperf3 server run with sar logging script
 
 # Read arguments
 interface_ip=$1
@@ -28,8 +28,8 @@ sar_logs_file_name=$host-$test_name-$todays_date-iperfserver-sar.out
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperfserver-iperf.results
 
-idle_timer_before_measurement=5
-performance_measurement_timer=180
+idle_timer_before_measurement=60
+performance_measurement_timer=185
 idle_timer_after_measurement=60
 sar_timer=$((idle_timer_before_measurement+performance_measurement_timer+idle_timer_after_measurement))
 
@@ -56,7 +56,7 @@ sleep $performance_measurement_timer
 
 # Kill iper3 server
 echo "killing iperf3 server which PID is: $(/usr/sbin/pidof iperf3)"
-if [ -n $(/usr/sbin/pidof iperf3) ]
+if [ -n "$(/usr/sbin/pidof iperf3)" ]
 then
   kill -9 $(/usr/sbin/pidof iperf3)
 else
@@ -68,7 +68,7 @@ sleep $idle_timer_after_measurement
 
 # Kill sar 
 echo "killing sar process which PID is: $(/usr/sbin/pidof sar)"
-if [ -n $(/usr/sbin/pidof sar) ]
+if [ -n "$(/usr/sbin/pidof sar)" ]
 then
   kill -9 $(/usr/sbin/pidof sar)
 else
