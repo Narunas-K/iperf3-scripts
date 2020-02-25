@@ -9,10 +9,11 @@ server_ip=$2
 iperf_server_port=$3
 test_name=$4
 mss=$5
-if [ -z $interface_ip ] || [ -z $server_ip ] || [ -z $iperf_server_port ] || [ -z $test_name ] || [ -z $mss ]
+iperf_client_port=$6
+if [ -z $interface_ip ] || [ -z $server_ip ] || [ -z $iperf_server_port ] || [ -z $test_name ] || [ -z $mss ] || [ -z $iperf_client_port ]
 then
-  echo "Please provide interface_ip and server_ip parameters. Example"
-  echo "./iperf-client-run.sh 192.168.2.2 192.168.2.1 50002 first_test 88"
+  echo "Please provide interface_ip, server_ip, server_port, test_name, tcp_segment_size, client_port parameters. Example"
+  echo "./iperf-client-run.sh 192.168.2.2 192.168.2.1 50002 first_test 88 50003"
   echo "Exiting.."
   exit
 fi
@@ -29,7 +30,7 @@ sar_logs_file_name=$host-$test_name-$todays_date-iperf-client-sar.out
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperf-client.results
 
-idle_timer_before_measurement=5
+idle_timer_before_measurement=60
 performance_measurement_timer=180
 idle_timer_after_measurement=60
 sar_timer=$((idle_timer_before_measurement+performance_measurement_timer+idle_timer_after_measurement))
@@ -52,6 +53,7 @@ sleep $idle_timer_before_measurement
 # Iperf3 logging part
 echo "Starting iperf3 client"
 echo "iperf3 results are stored in $iperf_results_dir/$iperf_results_file_name"
+echo "$server_ip:$iperf_server_port"
 until nc -v -z $server_ip $iperf_server_port
 do
   echo "waiting for iperf server to come up"
@@ -67,7 +69,7 @@ do
 done
 
 #start iperf client
-iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer -p $iperf_server_port --set-mss $mss
+iperf3 -c $server_ip -B $interface_ip --logfile $iperf_results_dir/$iperf_results_file_name -t $performance_measurement_timer -p $iperf_server_port --set-mss $mss --cport $iperf_client_port
 echo "going to sleep for $performance_measurement_timer seconds"
 #sleep $performance_measurement_timer
 
