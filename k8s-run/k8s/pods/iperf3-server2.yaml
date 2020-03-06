@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf3-server2
+  labels:
+    instance: second
+    app: iperf
+    type: server
+spec:
+  containers:
+  - name: iperf3-server2
+    image: narunask/networkstatic-iperf
+    imagePullPolicy: IfNotPresent
+    args: ['-s']
+  nodeSelector:
+    name: worker1

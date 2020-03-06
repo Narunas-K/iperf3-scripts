@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: iperf3-client3
+  labels:
+    instance: third
+    app: iperf
+spec:
+  containers:
+  - name: iperf3-client3
+    image: narunask/networkstatic-iperf
+    imagePullPolicy: IfNotPresent
+    command: ['/bin/bash', '-c', 'sleep infinity']
+  nodeSelector:
+    name: worker3
