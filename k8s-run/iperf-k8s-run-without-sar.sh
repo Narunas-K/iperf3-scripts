@@ -29,9 +29,9 @@ host=`hostname -f`
 iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperf-client.results
 
-idle_timer_before_measurement=5
-performance_measurement_timer=15
-idle_timer_after_measurement=10
+idle_timer_before_measurement=60
+performance_measurement_timer=180
+idle_timer_after_measurement=60
 iperf_loop_counter=0
 max_iperf_client_retries=15
 
