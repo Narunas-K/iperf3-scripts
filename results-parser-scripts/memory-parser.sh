@@ -14,7 +14,7 @@ parse_team=$4
 
 if [ -z $source_dir ] || [ -z $results_store_dir ] || [ -z $results_file ] || [ -z $parse_team ]
 then
-  echo "Please provide source data directory, results store directory, file name to which write results and if to sue rgex to parse teamed interfaces results"
+  echo "Please provide source data directory, results store directory, file name to which write results and if to use regex to parse teamed interfaces results"
   echo "./interrupts-parser.sh source-data-dir results-store-dir results-file-name true"
   echo "Exiting.."
   exit
