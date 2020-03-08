@@ -10,11 +10,12 @@ results_store_dir=`pwd`
 source_dir=$1
 results_store_dir=$2
 results_file=$3
+parse_team=$4
 
-if [ -z $source_dir ] || [ -z $results_store_dir ] || [ -z $results_file ]
+if [ -z $source_dir ] || [ -z $results_store_dir ] || [ -z $results_file ] || [ -z $parse_team ]
 then
-  echo "Please provide source data directory and results file name to which write results"
-  echo "./interrupts-parser.sh source-data-dir results-store-dir results-file-name"
+  echo "Please provide source data directory, results store directory, file name to which write results and if to sue rgex to parse teamed interfaces results"
+  echo "./interrupts-parser.sh source-data-dir results-store-dir results-file-name true"
   echo "Exiting.."
   exit
 fi
@@ -30,7 +31,12 @@ files_array=`cat $results_store_dir/filesList.txt`
 
 for file_name in $files_array
 do
-  test_name=`echo "$file_name" | grep -Po "kw\d\w{3}\d_kw\d\w{3}\d_\w{3}-\d{2,4}_\d-\d{8}-\d{6}"`
+  if [ $parse_team == "true" ]
+  then
+    test_name=`echo "$file_name" | grep -Po "kw\d\w{4}\d_kw\d\w{4}\d_\w{8}-\d_\w{3}-\d{2,4}_\d"`
+  else
+    test_name=`echo "$file_name" | grep -Po "kw\d\w{3}\d_kw\d\w{3}\d_\w{3}-\d{2,4}_\d-\d{8}-\d{6}"`
+  fi
   echo "Processing $test_name"
   #parse kbcached memory and write to results to file
   results=`sadf -p $source_dir/$file_name -- -r  | grep -Po "kbcommit.\d*" | grep -Po "\d*"`
