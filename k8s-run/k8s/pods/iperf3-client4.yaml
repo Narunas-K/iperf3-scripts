@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: iperf3-client5
+  name: iperf3-client4
   labels:
     instance: fourth
     app: iperf

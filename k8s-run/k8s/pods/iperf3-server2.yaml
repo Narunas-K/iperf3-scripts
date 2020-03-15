@@ -11,6 +11,6 @@ spec:
   - name: iperf3-server2
     image: narunask/networkstatic-iperf
     imagePullPolicy: IfNotPresent
-    args: ['-s']
+    args: ['-s', '-p', '5201']
   nodeSelector:
     name: worker1
