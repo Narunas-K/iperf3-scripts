@@ -36,7 +36,7 @@ iperf_results_dir="/tmp/phys-tcp-throughput-test/iperf-results"
 iperf_results_file_name=$host-$test_name-$todays_date-iperf-client.results
 
 idle_timer_before_measurement=60
-performance_measurement_timer=180
+performance_measurement_timer=120
 idle_timer_after_measurement=60
 sar_timer=$((idle_timer_before_measurement+performance_measurement_timer+idle_timer_after_measurement))
 iperf_loop_counter=0
